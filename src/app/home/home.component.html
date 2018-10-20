@@ -1,0 +1,94 @@
+<br>
+<a href="https://www.youtube.com/watch?v=i1YDM6qM3Z4&index=27&list=PLqq-6Pq4lTTb7JGBTogaJ8bm7f8VCvFkj">
+<h2>Angular 6 Basics 27 - Creating an angular project with routing</h2>
+</a>
+<p>
+$ cd into the projects folder.<br><br>
+Type:<br>
+$ ng new projects-name --routing
+<br><br>
+Then create a component for each page you want on your app / site.<br>
+Example: home, about, contact, ....<br><br>
+Create components for each page like this:<br>
+$ ng g c home
+<br>
+$ ng g c about
+<br>
+$ ng g c contact
+<br>
+$ ng g c .....
+<br>
+<textarea style="height: 133px; width: 502px;">
+
+Next copy/paste the new cli generated imports statements
+at the top of "app.module.ts"(the root module) to
+the top of "app-routing.modle.ts" like this:
+    import { NgModule } from '@angular/core';
+    import { Route, RouterModule } from '@angular/router';
+    import { HomeComponent } from './home/home.component';
+    import { SettingsComponent } from './settings/settings.component';
+    import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+</textarea>
+<br>
+Then add path options to the Route[] array<br>
+in "app-routing.modle.ts" like this:
+<br>
+<textarea style="width: 506px; height: 261px;">
+
+  const routes: Route[] = [
+      {path: '', redirectTo: '/home', pathMatch: 'full' },
+      {path: 'home', component: HomeComponent },
+      {path: 'settings', component: SettingsComponent },
+      {path: '**', component: PageNotFoundComponent }
+  ];
+
+Note:
+That for some unknown reason "Routes"(cli generated) in:
+    const routes: Routes[] = [
+Had to be changed to:
+    const routes: Route[] = [
+
+As a result the:
+    import { Routes, RouterModule } from '@angular/router';
+at the top of "app-routing.modle.ts" had to be changed to:
+    import { Route, RouterModule } from '@angular/router';
+</textarea>
+<br>
+Last but not least we remove all the default<br>
+HTML from "app.component.html" except one TAG:<br>
+We want to leave: <textarea style="width: 193px; height: 13px;">
+<router-outlet></router-outlet>
+</textarea>
+</p>
+<h1>Angular 6 Basics 30 - Configuring child routes</h1>
+<p>
+    In this video we created two components like this:<br>
+    $ ng g c settings-profile<br>
+    $ ng g c settings-contact<br>
+    <br>
+    Then we imported the new components into the top of:<br>
+    "app-routing-module.ts"<br>
+    <br>
+    Next we added path options to the Route[] array<br>
+    in "app-routing.modle.ts" like this:<br>
+    <textarea style="width: 379px; height: 219px;">
+        const routes: Route[] = [
+            {path: '', redirectTo: '/home', pathMatch: 'full' },
+            {path: 'home', component: HomeComponent },
+            {
+                path: 'settings', 
+                component: SettingsComponent,
+                children: [
+                {path: '', redirectTo: 'profile', pathMatch: 'full' },
+                {path: 'profile', component: SettingsProfileComponent },
+                {path: 'contact', component: SettingsContactComponent },
+                {path: '**', component: PageNotFoundComponent }
+                ]
+            },
+            {path: '**', component: PageNotFoundComponent }
+        ];
+    </textarea>
+    <br>
+        Last we added <textarea style="width: 193px; height: 13px;"> <router-outlet></router-outlet> </textarea><br>
+        To "settings.component.html" so that it would act as a parent page.
+</p>
